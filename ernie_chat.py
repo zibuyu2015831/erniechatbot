@@ -1,10 +1,19 @@
 import streamlit as st
 import requests
+import time
+import random
 import os
 
 st.image("yiyan_logo.png")
 
 st.markdown("<font color='red'>**注意：本站未配置数据库，只有临时缓存！重新打开（或刷新）网页都会导致缓存丢失！**</font>", unsafe_allow_html=True)
+
+def generate_nonce():
+    timestamp = str(int(time.time() * 1000))  # 精确到毫秒的时间戳
+    rand_part = str(random.randint(1000, 9999))  # 生成一个四位的随机数
+    return timestamp + rand_part
+
+nonce = generate_nonce()
 
 # 对话记录和对话缓存
 if "messages" not in st.session_state:
@@ -39,6 +48,10 @@ with st.sidebar:
 api_key = os.environ.get("ERNIE_BOT_API")
 host = api_key
 
+headers = {
+    "x-apigw-nonce": nonce
+}
+
 data = {
     "system": system,
     "messages": [],
@@ -54,7 +67,7 @@ user_input = st.chat_input("Say something...")
 if user_input:
     data["messages"].append({"role": "user", "content": user_input})
     st.session_state.messages.append({"role": "user", "content": user_input})
-    response = requests.post(host, json=data, verify=False)
+    response = requests.post(host, json=data, headers=headers)
     result = response.json()["data"]
     data["messages"].append({"role": "assistant", "content": result})
     st.session_state.messages.append({"role": "assistant", "content": result})
