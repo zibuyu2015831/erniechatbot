@@ -35,7 +35,8 @@ with st.sidebar:
         # 重置按钮
         reset_button = st.button("Reset", key="reset", help="点击进行重置，会清除全部缓存")
 
-host = "ERNIE_BOT_API"
+api_key = "ERNIE_BOT_API"
+host = api_key
 
 data = {
     "system": system,
