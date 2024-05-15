@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-st.image("D:\ernie_bot\yiyan_logo.png")
+st.image("yiyan_logo.png")
 
 st.markdown("<font color='red'>**注意：本站未配置数据库，只有临时缓存！重新打开（或刷新）网页都会导致缓存丢失！**</font>", unsafe_allow_html=True)
 
@@ -35,7 +35,7 @@ with st.sidebar:
         # 重置按钮
         reset_button = st.button("Reset", key="reset", help="点击进行重置，会清除全部缓存")
 
-host = "https://api.mizhoubaobei.top/ERNIE-Bot"
+host = "ERNIE_BOT_API"
 
 data = {
     "system": system,
